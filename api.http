@@ -1,0 +1,29 @@
+POST https://wt-873f548fdd5b60d59d25e0cae4a5051c-0.sandbox.auth0-extend.com/newsletter-subscribe
+Content-Type: application/json
+
+{
+  "email": "subscriber-200@mail.com"
+}
+
+###
+
+POST https://wt-873f548fdd5b60d59d25e0cae4a5051c-0.sandbox.auth0-extend.com/newsletter-subscribe
+Content-Type: application/json
+
+{
+  "email": "subscriber-400@mail.com"
+}
+
+###
+
+POST https://wt-873f548fdd5b60d59d25e0cae4a5051c-0.sandbox.auth0-extend.com/newsletter-subscribe
+Content-Type: application/json
+
+{
+  "email": "subscriber-500@mail.com"
+}
+
+###
+
+POST https://wt-873f548fdd5b60d59d25e0cae4a5051c-0.sandbox.auth0-extend.com/newsletter-subscribe
+Content-Type: application/json
