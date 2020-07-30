@@ -12,43 +12,53 @@ describe("<ContactForm />", () => {
     render(<ContactForm />);
   });
 
-  test("it catches invalid email input without @", async () => {
+  async function fillOutForm(email) {
     render(<ContactForm />);
 
     const emailInput = screen.getByLabelText(/Email/i);
-    await userEvent.type(emailInput, "invalidemail");
+    await userEvent.type(emailInput, email);
     await userEvent.click(screen.getByRole("button"));
+  }
 
-    expect(screen.getByText(/Email is invalid/i)).toBeInTheDocument();
+  describe("<ContactForm /> email input is invalid", () => {
+    beforeEach(() => {
+      fillOutForm("invalidemail");
+    });
+
+    test("it catches invalid email input without @", async () => {
+      expect(screen.getByText(/Email is invalid/i)).toBeInTheDocument();
+    });
   });
 
-  test("it catches failed API request", async () => {
-    render(<ContactForm />);
+  describe("<ContactForm /> throws error 500", () => {
+    beforeEach(() => {
+      fillOutForm("email500@gmail.com");
+    });
 
-    const emailInput = screen.getByLabelText(/Email/i);
-    await userEvent.type(emailInput, "email500@gmail.com");
-    await userEvent.click(screen.getByRole("button"));
-    await waitForElementToBeRemoved(() => screen.getByText(/Signing up/i));
+    test("it catches failed API request due to InternalError", async () => {
+      await waitForElementToBeRemoved(() => screen.getByText(/Signing up/i));
 
-    expect(
-      screen.getByText(
-        /Unable to process subscribe to newsletter at the moment/i
-      )
-    ).toBeInTheDocument();
+      expect(
+        screen.getByText(
+          /Unable to process subscribe to newsletter at the moment/i
+        )
+      ).toBeInTheDocument();
+    });
   });
 
-  test("it catches failed API request due to invalid email input", async () => {
-    render(<ContactForm />);
+  describe("<ContactForm /> throws error 400", () => {
+    beforeEach(() => {
+      fillOutForm("email-400@gmail.com");
+    });
 
-    const emailInput = screen.getByLabelText(/Email/i);
-    await userEvent.type(emailInput, "email-400@gmail.com");
-    await userEvent.click(screen.getByRole("button"));
-    await waitForElementToBeRemoved(() => screen.getByText(/Signing up/i));
+    test("it catches failed API request due to invalid email input", async () => {
+      await waitForElementToBeRemoved(() => screen.getByText(/Signing up/i));
 
-    expect(
-      screen.getByText(
-        /Unable to process subscribe to newsletter at the moment/i
-      )
-    ).toBeInTheDocument();
+      expect(
+        screen.getByText(
+          /Unable to process subscribe to newsletter at the moment/i
+        )
+      ).toBeInTheDocument();
+    });
   });
 });
