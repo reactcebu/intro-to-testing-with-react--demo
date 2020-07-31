@@ -41,18 +41,13 @@ export const ContactForm = () => {
 
         res.json();
       })
-      .then((result) => {
-        console.log("handleSubmit -> result", result);
+      .then(() => {
         setFormState("success");
-        // success
       })
-      .catch((err) => {
-        console.log("handleSubmit -> err", err);
+      .catch(() => {
         setFormState("failed");
       })
       .finally(() => setTimeout(() => setFormState("idle"), 10000));
-
-    console.log("handleSubmit -> emailInput", emailInput.current.value);
   };
 
   return (
